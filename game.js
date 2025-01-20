@@ -1,126 +1,102 @@
-// .CREATE variables named humanScore and computerScore in the global scope
-// .INIT variables named humanScore and computerScore with the value of 0
-// let humanScore = 0;
-// let computerScore = 0;
+/********************************************************************************
+ * Author: Liam Sirkett
+ * Date: Jan.20/2025
+ * Project: Rock Paper Scissors
+ * Description: Create a Javascript console application to simulate playing
+ * 			    a game of 'Rock Paper Scissors'
+ */
 
+// required by node.js to use prompt in console - NO WORK !!!
+// const prompt = require(‘prompt-sync’)();
+
+// used to return an option for the computer
 function random () {
     let options = "Rock,Paper,Scissors".split(',');
-    let result = options[Math.floor(Math.random() * 3)];
-    return result;
+    let choice = options[Math.floor(Math.random() * 3)];
+    return choice;
 }
 
-// .GET computer choice (function)
 function getComputerChoice() {
     return random();
 }
 
-// .GET human choice (function)
 function getHumanChoice() {
-    choice = prompt("Rock, Paper or Scissors");
-    choice = choice[0].toUpperCase() + choice.slice(1).toLowerCase();
+    let choice = prompt("Rock, Paper or Scissors");
+	choice = choice[0].toUpperCase() + choice.slice(1).toLowerCase();
+	while (choice !== "Rock" && choice !== "Paper" && choice !== "Scissors") {
+		choice = prompt("YOU MUST CHOOSE: Rock, Paper or Scissors");
+		choice = choice[0].toUpperCase() + choice.slice(1).toLowerCase();
+	}
+    
     return choice;
 }
-
-// console.log(getComputerChoice());
-// console.log(getHumanChoice());
 
 function playGame() {
 
 	let humanScore = 0;
 	let computerScore = 0;
-	// console.log("PLAYING ROCK PAPER SCISSORS");
-	// console.log("human score: " + humanScore);
-	// console.log("computer score: " + computerScore);
-	// let humanScore = 0;
-	// let computerScore = 0;
-	// const humanSelection = getHumanChoice();
-	// const computerSelection = getComputerChoice();
-	let humanSelection = getHumanChoice();
-	let computerSelection = getComputerChoice();
-	// NOTE: messages displayed ONLY after playGame() finishes !!!
-	// console.log('human', humanSelection);
-	// console.log('computer', computerSelection);
+	
+	let round = 0;
+	
+	while (humanScore !== 3 && computerScore !== 3) {
+		let humanSelection = getHumanChoice();
+		let computerSelection = getComputerChoice();
 
-	// while (humanSelection === computerSelection) {
-	// 	let humanSelection = getHumanChoice();
-	// 	let computerSelection = getComputerChoice();
-	// }
+		while (humanSelection === computerSelection) {
+			humanSelection = getHumanChoice();
+			computerSelection = getComputerChoice();
+		}
+		console.log(`human: ${humanSelection}`);
+		console.log(`computer: ${computerSelection}`);
 
-	console.log("Round #1: " + playRound(humanSelection, computerSelection));
+		let message = playRound(humanSelection, computerSelection);
 
-	humanSelection = getHumanChoice();
-	computerSelection = getComputerChoice();
-	console.log("Round #2: " + playRound(humanSelection, computerSelection));
-
-	humanSelection = getHumanChoice();
-	computerSelection = getComputerChoice();
-	console.log("Round #3: " + playRound(humanSelection, computerSelection));
-
-	humanSelection = getHumanChoice();
-	computerSelection = getComputerChoice();
-	console.log("Round #4: " + playRound(humanSelection, computerSelection));
-
-	humanSelection = getHumanChoice();
-	computerSelection = getComputerChoice();
-	console.log("Round #5: " + playRound(humanSelection, computerSelection));
+		if (message !== "TIE, go again") {
+			round += 1;
+			console.log(`Round #${round}: ${message}`);
+		} 
+	}
 
 	function playRound(humanChoice, computerChoice) {
 
 		let message = "";
 
 		if (humanChoice === "Rock" && computerChoice === "Scissors") {
-			//console.log("Rock beats Scissors, human wins!");
 			message = "Rock beats Scissors, human wins!";
 			humanScore += 1;
 		}
 		else if (humanChoice === "Paper" && computerChoice === "Scissors") {
-			//console.log("Scissors beats Paper, computer wins!");
 			message = "Scissors beats Paper, computer wins!";
 			computerScore += 1;
 		}
 		else if (humanChoice === "Scissors" && computerChoice === "Paper") {
-			//console.log("Scissors beats Paper, human wins!");
 			message = "Scissors beats Paper, human wins!";
 			humanScore += 1;
 		}
 		else if (humanChoice === "Rock" && computerChoice === "Paper") {
-			//console.log("Paper beats Rock, computer wins!");
 			message = "Paper beats Rock, computer wins!";
 			computerScore += 1;
 		}
 		else if (humanChoice === "Paper" && computerChoice === "Rock") {
-			//console.log("Paper beats Rock, human wins!");
 			message = "Paper beats Rock, human wins!";
 			humanScore += 1;
 		}
 		else if (humanChoice === "Scissors" && computerChoice === "Rock") {
-			//console.log("Rock beats Scissors, computer wins!");
 			message = "Rock beats Scissors, computer wins!";
 			computerScore += 1;
 		}
 		else {
-			// console.log("TIE, go again");	
 			message = "TIE, go again";	
 		}
-
-		//return winner ? humanScore : computerScore;
+		
 		return message;
 	}
+
 	console.log("human score: " + humanScore);
 	console.log("computer score: " + computerScore);
 	return (humanScore > computerScore) ? "HUMAN WINS!" : "COMPUTER WINS!";
-
 }
-// const humanSelection = getHumanChoice();
-// const computerSelection = getComputerChoice();
+
 console.log("PLAYING ROCK PAPER SCISSORS");
-// console.log("PLAYING ROCK PAPER SCISSORS");
 console.log(playGame());
-// console.log("Round #2: " + playGame());
-// console.log("Round #3: " + playGame());
-// console.log("Round #4: " + playGame());
-// console.log("Round #5: " + playGame());
-// console.log(playRound(humanSelection, computerSelection));
-// console.log("human score: " + humanScore);
-// console.log("computer score: " + computerScore);
 
