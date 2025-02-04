@@ -9,6 +9,31 @@
 // required by node.js to use prompt in console - NO WORK !!!
 // const prompt = require(‘prompt-sync’)();
 
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+// // WORKS
+// rock.addEventListener("click", () => alert("ROCK"));
+// paper.addEventListener("click", () => alert("PAPER"));
+// scissors.addEventListener("click", () => alert("SCISSORS"));
+
+// WORKS
+rock.addEventListener("click", (e) => {
+	// alert("ROCK", e.target);
+	alert(e.target.id);
+	console.log(e.target.id);
+});
+paper.addEventListener("click", (e) => {
+	alert(e.target.id);
+	console.log(e.target.id);
+});
+scissors.addEventListener("click", (e) => {
+	alert(e.target.id);
+	console.log(e.target.id);
+});
+
+
 // used to return an option for the computer
 function random () {
     let options = "Rock,Paper,Scissors".split(',');
@@ -97,6 +122,6 @@ function playGame() {
 	return (humanScore > computerScore) ? "HUMAN WINS!" : "COMPUTER WINS!";
 }
 
-console.log("PLAYING ROCK PAPER SCISSORS");
-console.log(playGame());
+// console.log("PLAYING ROCK PAPER SCISSORS");
+// console.log(playGame());
 
