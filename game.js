@@ -133,8 +133,13 @@ function eventHandler() {
 	pHuman.textContent = humanScore;
 	pComputer.textContent = computerScore;
 	
-	// add new result after each round 
-	divResults.appendChild(pResult);
+	// add new result from each round to bottom of results
+	// divResults.appendChild(pResult);
+
+	// add new result from each round to top of results (below h3)
+	// solves problem of disappearing results in long game (with many ties)
+	let refElement = divResults.firstElementChild;
+	refElement.insertAdjacentElement("afterEnd", pResult);
 	
 	let winner = checkForWinner();
 	if (winner === "HUMAN WINS!" || winner === "COMPUTER WINS!") {
