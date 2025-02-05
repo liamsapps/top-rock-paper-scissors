@@ -57,6 +57,8 @@ button {
 
 .box.two #results {
     flex: 2;
+    /* adjust alignment of results -> set padding-bottom to match h3 margin-bottom */
+    padding-bottom: 18px;
 }
 
 .box.two #scores #players{
