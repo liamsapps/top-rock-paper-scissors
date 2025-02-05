@@ -3,20 +3,34 @@
     <head>
         <meta charset="UTF-8">
         <title>Rock, Paper, Scissors</title>
-        <script src="game.js" defer></script>
+        <script src="./game.js" defer></script>
+        <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-        <h1>PLAYING ROCK PAPER SCISSORS</h1>
-        <button id="Rock">Rock</button>
-        <button id="Paper">Paper</button>
-        <button id="Scissors">Scissors</button>
-        <div id="results">
-
+        <div id="container">
+            <div class="box zero">
+                <h1>PLAYING ROCK PAPER SCISSORS</h1>
+            </div>
+            <div class="box one">
+                <div id="buttons">
+                    <button id="Rock" class="buttons">Rock</button>
+                    <button id="Paper" class="buttons">Paper</button>
+                    <button id="Scissors" class="buttons">Scissors</button>
+                    <button id="PlayAgain">Play Again</button>
+                </div>
+            </div>
+            <div class="box two">
+                <div id="results">
+                    <h3>RESULTS</h3>
+                </div>
+                <div id="scores">
+                    <h3 id="heading-scores">SCORES</h3>
+                    <div id="players">
+                        <div id="human"><span>HUMAN</span></div>
+                        <div id="computer"><span>COMPUTER</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- <script src="game.js">
-        </script>
-        <script src="test.js"> 
-            console.log("Hello World");
-        </script> -->
     </body>
 </html>

@@ -1,13 +1,37 @@
 /********************************************************************************
  * Author: Liam Sirkett
- * Date: Jan.20/2025
+ * Date: Feb.05/2025
  * Project: Rock Paper Scissors
  * Description: Create a Javascript console application to simulate playing
  * 			    a game of 'Rock Paper Scissors'
+ * 				Create a UI for my 'Rock Paper Scissors' console app. 
  */
 
 // required by node.js to use prompt in console - NO WORK !!!
 // const prompt = require(‘prompt-sync’)();
+
+let humanScore = 0;
+let computerScore = 0;
+let round = 1;
+
+const divResults = document.querySelector("#results");
+const divScores = document.querySelector("#scores");
+const divHumanScore = document.querySelector("#human");
+const divComputerScore = document.querySelector("#computer");
+const btnRock = document.querySelector("#Rock");
+const btnPaper = document.querySelector("#Paper");
+const btnScissors = document.querySelector("#Scissors");
+const btnPlayAgain = document.querySelector("#PlayAgain");
+
+const pResult = document.createElement("p");
+const pHuman = document.createElement("p");
+const pComputer = document.createElement("p");
+
+// ensure starting score is set to zero for both players
+pHuman.textContent = humanScore;
+pComputer.textContent = computerScore;
+divHumanScore.appendChild(pHuman);
+divComputerScore.appendChild(pComputer);
 
 // used to return an option for the computer
 function random () {
@@ -52,65 +76,94 @@ function playRound(humanChoice, computerChoice) {
 		message = "TIE, go again";	
 	}
 	
-	// return message;
 	return `Round: ${round} ${message}`;
-	// console recognizes \n, but not HTML
-	// return `Round: ${round} ${message}\ntesting\ntesting`;
-	// neither console nor HTML recognizes <br>
-	// return `Round: ${round} ${message}<br>testing<br>testing`;
 }
 
-function playGame() {
-	// if (humanScore !== 3 && computerScore !== 3) {
-	if (humanScore === 3 || computerScore === 3) {
+function checkForWinner() {
+	if (humanScore === 5 || computerScore === 5) {
+	// if (humanScore === 3 || computerScore === 3) {
 		return (humanScore > computerScore) ? "HUMAN WINS!" : "COMPUTER WINS!";
 	}
 }
 
-let humanScore = 0;
-let computerScore = 0;
-let round = 1;
+function resetGame() {
+	humanScore = 0;
+	computerScore = 0;
+	round = 1;
 
-console.log("human score: " + humanScore);
-console.log("computer score: " + computerScore);
+	pHuman.textContent = humanScore;
+	pComputer.textContent = computerScore;
+	divHumanScore.appendChild(pHuman);
+	divComputerScore.appendChild(pComputer);
+}
 
-const div = document.querySelector("#results");
-const rock = document.querySelector("#Rock");
-const paper = document.querySelector("#Paper");
-const scissors = document.querySelector("#Scissors");
 
-// function eventHandler(gameMove) {
+function playGameAgain() {
+	// enable buttons and add event listeners
+	let buttons = document.querySelectorAll(".buttons");
+	buttons.forEach((button) => {
+		button.disabled = false;
+		button.addEventListener("click", eventHandler);
+	});
+
+	// clear out div child elements, EXCEPT heading 
+	divResults.replaceChildren(divResults.firstElementChild);
+
+	// remove paragraphs (note: will be reinitialized, and appended, if user plays again)
+	divHumanScore.removeChild(pHuman);
+	divComputerScore.removeChild(pComputer);
+
+	// remove event listeners and disable buttons
+	btnPlayAgain.removeEventListener("click", playGameAgain);
+	btnPlayAgain.disabled = true;
+
+	resetGame();
+}
+
 function eventHandler() {
+	// play a single round using button's id value ("Rock","Paper" or "Scissors") 
+	// and computer's choice
 	let result = playRound(this.id, getComputerChoice());
-	console.log(result);
-	let para = document.createElement("p");
-	para.textContent = result;
-	let text1 = document.createTextNode(`	human score: ${humanScore}	`);
-	let text2 = document.createTextNode(`	computer score: ${computerScore}`);
-	para.appendChild(text1);
-	para.appendChild(text2);
-	div.appendChild(para);
-	let winner = playGame();
+	
+	let pResult = document.createElement("p");
+	pResult.style.margin = '3px 0px';
+	pResult.textContent = result;
+
+	// update player scores after each round
+	pHuman.textContent = humanScore;
+	pComputer.textContent = computerScore;
+	
+	// add new result after each round 
+	divResults.appendChild(pResult);
+	
+	let winner = checkForWinner();
 	if (winner === "HUMAN WINS!" || winner === "COMPUTER WINS!") {
-		let buttons = document.querySelectorAll("button");
+		// remove event listeners and disable buttons
+		let buttons = document.querySelectorAll(".buttons");
 		buttons.forEach((button) => {
 			button.removeEventListener("click", eventHandler);
 			button.disabled = true;
 		});
-		let para2 = document.createElement("p");
-		para2.textContent = winner;
-		div.appendChild(para2);
+
+		let pWinner = document.createElement("p");
+		pWinner.textContent = winner;
+		// adjust alignment of results -> set margin-bottom to match h3 margin
+		pWinner.setAttribute("style", "margin: 0px 0px 18px 0px; color: green; font-weight: bold; font-size: 20px;");
+		
+		let refElement = divResults.firstElementChild;
+		refElement.insertAdjacentElement("afterEnd", pWinner);
+
+		// allow player option to play again
+		btnPlayAgain.disabled = false;
+		btnPlayAgain.addEventListener("click", playGameAgain);
 	}
 	round +=1 ;
 }
 
-rock.addEventListener("click", eventHandler);
-paper.addEventListener("click", eventHandler);
-scissors.addEventListener("click", eventHandler);
+btnRock.addEventListener("click", eventHandler);
+btnPaper.addEventListener("click", eventHandler);
+btnScissors.addEventListener("click", eventHandler);
+btnPlayAgain.disabled = true;
 
-// NO WORK
-// rock.addEventListener("click", eventHandler("Rock"));
-// paper.addEventListener("click", eventHandler("Paper"));
-// scissors.addEventListener("click", eventHandler("Scissors"));
 
 
